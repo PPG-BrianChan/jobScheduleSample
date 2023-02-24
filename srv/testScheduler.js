@@ -1,5 +1,3 @@
-const { executeHttpRequest, getDestination, destinationForServiceBinding } = require('@sap-cloud-sdk/core');
-const { executeJobHttpRequest } = require('./libs/schedulerFunction')
 const { executeHttpRequest_customDestination } = require('./libs/customDestinationFunction')
 
 //VCAP
@@ -56,9 +54,9 @@ module.exports = async function (srv) {
             method: "PUT",
             url: url,
             data: jobUpdateMessage,
-            // headers: {
-            //     "Content-Type": "application/json"
-            // }
+            headers: {
+                "Content-Type": "application/json"
+            }
         }
         try {
             const result = await executeHttpRequest_customDestination(
