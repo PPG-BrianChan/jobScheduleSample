@@ -26,21 +26,15 @@ export async function executeHttpRequest_customDestination<T extends HttpRequest
 }
 
 /**
- * Manually retrieves service to identify the right service url
- * Service credentials have to be massaged before passing in to getClientCredentialsToken
- * This is due to the function is built to handle only specific services ONLY
- * The parameter service can be used to retrieve token 
+ * Generate token using Cloud SDK methods
+ * Return destination object according to SDK standards as well
+ * Note:In the example of job scheduler, credentials is stored differently and is unable to use SDK method directly
+ * Massaging has to be done before calling getClientCredentialsToken method
  */
 const _serviceBindingTransformFn: ServiceBindingTransformFunction = async (
     service: Service
 ): Promise<Destination> => {
-    // const services: Service[] = xsenv.filterServices({ instance_name: service.name });
-    // const selectedService: Service = services[0]
-    //selectedService and parameter service are usually the same instance.
-    //However, url can be different due to internal massaging functionalities.
-    //E.g. In the case of job scheduler, we should take url from selectedService.
     var serviceUrl = service.credentials.url;
-
     //Temp service used to generate token
     const tempService: Service = service;
     tempService.credentials = tempService.credentials.uaa
